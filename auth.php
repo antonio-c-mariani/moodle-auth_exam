@@ -95,7 +95,7 @@ class auth_plugin_exam extends auth_plugin_base {
      * @return mixed array with no magic quotes or false on error
      */
     function get_userinfo($username) {
-        if ($user = \local_exam_authorization\authorization::userinfo($username)) {
+        if ($user = \local_exam_authorization\authorization::get_userinfo($username)) {
             $userinfo = array();
             $userinfo['username'] = $username;
             foreach (self::$examuserfields as $field) {
