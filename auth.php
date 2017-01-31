@@ -26,6 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir.'/authlib.php');
+require_once($CFG->dirroot.'/user/profile/lib.php');
 
 /**
  * Web service auth plugin.
@@ -95,11 +96,18 @@ class auth_plugin_exam extends auth_plugin_base {
      * @return mixed array with no magic quotes or false on error
      */
     function get_userinfo($username) {
-        if ($user = \local_exam_authorization\authorization::get_userinfo($username)) {
+        $customfields = array();
+        foreach (profile_get_custom_fields() as $cf) {
+            $customfields[] = $cf->shortname;
+        }
+
+        if ($user = \local_exam_authorization\authorization::get_userinfo($username, $customfields)) {
             $userinfo = array();
             $userinfo['username'] = $username;
             foreach (self::$examuserfields as $field) {
-                $userinfo[$field] = isset($user->$field) ? $user->$field : '';
+                if (isset($user->$field)) {
+                    $userinfo[$field] = $user->$field;
+                }
             }
             if (isset($user->customfields)) {
                 foreach ($user->customfields as $ci) {
