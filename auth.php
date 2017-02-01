@@ -33,7 +33,7 @@ require_once($CFG->dirroot.'/user/profile/lib.php');
  */
 class auth_plugin_exam extends auth_plugin_base {
 
-    private static $examuserfields = array('firstname', 'lastname', 'email', 'idnumber');
+    private static $examuserfields = array('firstname', 'lastname', 'email', 'idnumber', 'lang', 'timezone', 'city', 'country');
 
     /**
      * Constructor.
